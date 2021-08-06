@@ -14,6 +14,9 @@ option = webdriver.ChromeOptions()
 option.add_argument('--headless')
 option.add_argument('--no-sandbox')
 option.add_argument('--start-maximized')
+option.add_argument('--disable-gpu')
+option.add_argument('--ignore-certificate-errors')
+option.add_argument('--disable-software-rasterizer')
 
 
 count = 0
@@ -23,23 +26,30 @@ def get_png(domain):
     print(domain)
     driver=webdriver.Chrome(chrome_options=option)
     #driver.maximize_window()    #打开全屏幕模式
-    driver.set_window_size(1080,1280)
+    driver.set_window_size(1920,1080)
     driver.implicitly_wait(4)   #截屏该网页
-    driver.get("http://"+domain)
+    driver.get(domain)
+    domain=domain.split('//')[1]
+    domain=domain.replace(':','_')
     time.sleep(1)
-    path = "G:\\test\\"+str(domain)+".png"
+    path = "D:\\test\\"+str(domain)+".png"
+    print(path)
     driver.get_screenshot_as_file(path)
     driver.quit()
 
 
 def main():
-    for line in open('domain.txt'):
-        line = line.strip()
-        get_png(line)
-        time.sleep(1)
+    for line in open('ip.txt'):
+         try:
+            line = line.strip()
+            get_png(line)
+            time.sleep(1)
+         except:
+            pass
+
 
 def banner():
-    xfile = open('domain.txt')
+    xfile = open('ip.txt')
     global count
     for line in xfile:
         count=count+1
