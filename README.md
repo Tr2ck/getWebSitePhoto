@@ -1,2 +1,5 @@
 # getWebSitePhoto
-获取网页截图
+
+
+
+批量网页截图
